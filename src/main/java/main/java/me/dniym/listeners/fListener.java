@@ -120,7 +120,7 @@ import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
-import org.spigotmc.event.entity.EntityMountEvent;
+import org.bukkit.event.entity.EntityMountEvent;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -297,45 +297,14 @@ public class fListener implements Listener {
             }
         }
 
-        if (!ver.contains("v1_14") && !ver.contains("v1_15") && !ver.contains("v1_16") && !ver.contains("v1_17") && !ver.contains("v1_18") && !ver.contains("V1_19") && !ver.contains("v1_20") && !ver.contains("V1_21")) {
-            if (ver.contains("v1_13")) {
-                LOGGER.info("MC Version 1.13+ detected!");
-
-                blacklist.addAll(Tag.CARPETS.getValues());
-                blacklist.add(Material.matchMaterial("RAIL"));
-
-                pistonCheck.add(Material.matchMaterial("PISTON"));
-                pistonCheck.add(Material.matchMaterial("PISTON_HEAD"));
-                pistonCheck.add(Material.matchMaterial("MOVING_PISTON"));
-                book = Material.WRITABLE_BOOK;
-            } else {
-                LOGGER.info("MC Version < 1.13 detected!");
-                blacklist.add(Material.matchMaterial("POWERED_RAIL"));
-                blacklist.add(Material.matchMaterial("DETECTOR_RAIL"));
-                blacklist.add(Material.matchMaterial("ACTIVATOR_RAIL"));
-
-                blacklist.add(Material.matchMaterial("RAILS"));
-                blacklist.add(Material.matchMaterial("CARPET"));
-                book = Material.matchMaterial("BOOK_AND_QUILL");
-
-
-                pistonCheck.add(Material.matchMaterial("PISTON_MOVING_PIECE"));
-                Set<Material> removeCheck = new HashSet<>();
-                removeCheck.add(Material.matchMaterial("PISTON_BASE"));
-                removeCheck.add(Material.matchMaterial("PISTON_STICKY_BASE"));
-            }
-            blacklist.add(Material.DETECTOR_RAIL);
-        } else {
-            LOGGER.info("MC Version {} detected!", ver);
-            pistonCheck.add(Material.PISTON);
-            pistonCheck.add(Material.MOVING_PISTON);
-            blacklist.add(Material.RAIL);
-            blacklist.addAll(Tag.CARPETS.getValues());
-            blacklist.add(Material.ACTIVATOR_RAIL);
-            blacklist.add(Material.DETECTOR_RAIL);
-
-            book = Material.WRITABLE_BOOK;
-        }
+        LOGGER.info("MC Version {} detected!", ver);
+        pistonCheck.add(Material.PISTON);
+        pistonCheck.add(Material.MOVING_PISTON);
+        blacklist.add(Material.RAIL);
+        blacklist.addAll(Tag.WOOL_CARPETS.getValues());
+        blacklist.add(Material.ACTIVATOR_RAIL);
+        blacklist.add(Material.DETECTOR_RAIL);
+        book = Material.WRITABLE_BOOK;
     }
 
     public static void punishPlayer(Player player, Entity rightClicked) {
@@ -1187,7 +1156,7 @@ public class fListener implements Listener {
                                 continue;
                             }
 
-                            if (IllegalStack.isEpicRename() && ((en == Enchantment.LURE || en == Enchantment.ARROW_INFINITE) && is
+                            if (IllegalStack.isEpicRename() && ((en == Enchantment.LURE || en == Enchantment.INFINITY) && is
                                     .getEnchantmentLevel(en) == 4341)) {
                                 continue;
                             }
@@ -1859,11 +1828,11 @@ public class fListener implements Listener {
             return;
         }
 
-        if (offHand.containsEnchantment(Enchantment.LOOT_BONUS_MOBS)) //offhand enchantment found
+        if (offHand.containsEnchantment(Enchantment.LOOTING)) //offhand enchantment found
         {
-            if (mainHand.containsEnchantment(Enchantment.LOOT_BONUS_MOBS)) //also have a looting enchantment
+            if (mainHand.containsEnchantment(Enchantment.LOOTING)) //also have a looting enchantment
             {
-                if (mainHand.getEnchantmentLevel(Enchantment.LOOT_BONUS_MOBS) < offHand.getEnchantmentLevel(Enchantment.LOOT_BONUS_MOBS)) //trying to screw with the levels deny
+                if (mainHand.getEnchantmentLevel(Enchantment.LOOTING) < offHand.getEnchantmentLevel(Enchantment.LOOTING)) //trying to screw with the levels deny
                 {
                     nerf = true;
                 } else  //otherwise they are definitely trying to cheat the system give no bonus at all.
@@ -2705,7 +2674,7 @@ public class fListener implements Listener {
                         if (SlimefunCompat.isValid(is, en)) {
                             continue;
                         }
-                        if (IllegalStack.isEpicRename() && ((en == Enchantment.LURE || en == Enchantment.ARROW_INFINITE) && is.getEnchantmentLevel(
+                        if (IllegalStack.isEpicRename() && ((en == Enchantment.LURE || en == Enchantment.INFINITY) && is.getEnchantmentLevel(
                                 en) == 4341)) {
                             continue;
                         }
@@ -2830,7 +2799,7 @@ public class fListener implements Listener {
                         if (SlimefunCompat.isValid(is, en)) {
                             continue;
                         }
-                        if (IllegalStack.isEpicRename() && ((en == Enchantment.LURE || en == Enchantment.ARROW_INFINITE) && is.getEnchantmentLevel(
+                        if (IllegalStack.isEpicRename() && ((en == Enchantment.LURE || en == Enchantment.INFINITY) && is.getEnchantmentLevel(
                                 en) == 4341)) {
                             continue;
                         }
@@ -3079,7 +3048,7 @@ public class fListener implements Listener {
                                 if (SlimefunCompat.isValid(is, en)) {
                                     continue;
                                 }
-                                if (IllegalStack.isEpicRename() && ((en == Enchantment.LURE || en == Enchantment.ARROW_INFINITE) && is
+                                if (IllegalStack.isEpicRename() && ((en == Enchantment.LURE || en == Enchantment.INFINITY) && is
                                         .getEnchantmentLevel(en) == 4341)) {
                                     continue;
                                 }
@@ -3496,28 +3465,7 @@ public class fListener implements Listener {
                     return;
                 }
 
-                if (!IllegalStack.hasChestedAnimals()) {
-                    if (e.getRightClicked() instanceof Horse) {
-                        final Horse horse = (Horse) e.getRightClicked();
-
-                        if (horse.isCarryingChest()) {
-                            horse.setCarryingChest(false);
-                            e.getPlayer().sendMessage(Msg.PlayerDisabledHorseChestMsg.getValue());
-                            getLog().append2(Msg.ChestRemoved.getValue(e.getPlayer(), horse));
-                            LOGGER.warn(
-                                    "ProtocolLib was NOT found on this server and DisableChestsOnMobs protection is turned on.. It may still be possible for players to dupe using horses/donkeys on your server using a hacked client.  It is highly recommended that you install ProtocolLib for optimal protection!");
-                            punishPlayer(e.getPlayer(), e.getRightClicked());
-                        } else {
-                            e.setCancelled(true);
-                            Scheduler.runTaskLater(this.plugin, () -> {
-                                e.getPlayer().sendMessage(Msg.PlayerDisabledHorseChestMsg.getValue());
-                                getLog().append2(Msg.ChestPrevented.getValue(e.getPlayer(), horse));
-                                horse.setCarryingChest(false);
-                                punishPlayer(e.getPlayer(), e.getRightClicked());
-                            }, 2, e.getPlayer());
-                        }
-                    }
-                } else if (e.getRightClicked() instanceof ChestedHorse) {
+                if (e.getRightClicked() instanceof ChestedHorse) {
 
                     ChestedHorse horse = (ChestedHorse) e.getRightClicked();
                     horse.setCarryingChest(false);
@@ -3845,7 +3793,7 @@ public class fListener implements Listener {
             if (enc == null) {
                 continue;
             }
-            enchants = enc.getName() + " - " + e.getEnchantsToAdd().get(enc) + ", ";
+            enchants = enc.getKey().getKey() + " - " + e.getEnchantsToAdd().get(enc) + ", ";
             //fListener.getLog().append2("DEBUG: Random xp for enchanting was: " + rndXp + " oldXp: " + oldXp + " new " + p.getExp()  + " " + p.getName() + " itm " + e.getItem().getType().name() + " added " + enchants);
         }
     }
