@@ -159,14 +159,8 @@ public class IllegalStack extends JavaPlugin {
     }
 
     private static void checkForPaperServer() {
-        try {
-            Class.forName("com.destroystokyo.paper.utils.PaperPluginLogger");
-            isPaperServer = true;
-            LOGGER.info("Server is a Paper server, enabling Paper features.");
-        } catch (ClassNotFoundException e) {
-            isPaperServer = false;
-            LOGGER.info("Server is NOT a Paper server, continuing as normal.");
-        }
+        isPaperServer = true;
+        LOGGER.info("Paper 26.2 detected, enabling Paper features.");
     }
 
     private static void checkForFoliaServer() {
@@ -186,13 +180,7 @@ public class IllegalStack extends JavaPlugin {
         checkForPaperServer();
         checkForFoliaServer();
 
-        try {
-            Class.forName("org.spigotmc.SpigotConfig");
-            Spigot = true;
-
-        } catch (ClassNotFoundException e) {
-            LOGGER.info("Server is NOT spigot, disabling chat components.");
-        }
+        Spigot = true;
 
         if (plugin.getServer().getPluginManager().getPlugin("Logblock") != null) {
             File conf = new File(Bukkit.getPluginManager().getPlugin("Logblock").getDataFolder(), "config.yml");
@@ -489,14 +477,7 @@ public class IllegalStack extends JavaPlugin {
         }
 
 
-        try {
-            Class.forName("net.md_5.bungee.api.chat.ComponentBuilder");
-            LOGGER.info("Chat Components found! Enabling clickable commands in /istack");
-            Spigot = true;
-
-        } catch (ClassNotFoundException e) {
-            LOGGER.info("Spigot chat components NOT found! disabling chat components.");
-        }
+        LOGGER.info("Adventure chat components enabled for clickable /istack commands.");
 
         try {
             Class.forName("fr.minuskube.inv.content.InventoryProvider");
@@ -1122,33 +1103,8 @@ public class IllegalStack extends JavaPlugin {
     }
 
     private void setVersion() {
-
-        String version;
-
-        try {
-            version = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
-        } catch (ArrayIndexOutOfBoundsException e) {
-            version = null;
-        }
-
-        if (version != null) {
-            version = getString(version);
-            IllegalStack.version = version;
-        } else {
-            String packageName = Bukkit.getServer().getClass().getPackage().getName();
-            String bukkitVersion = Bukkit.getServer().getBukkitVersion();
-            if (bukkitVersion.contains("1.20.5")) {
-                serverVersion = ServerVersion.v1_20_R5;
-            } else if (bukkitVersion.contains("1.20.6")) {
-                serverVersion = ServerVersion.v1_20_R5;
-            } else if (bukkitVersion.contains("1.21")) {
-                serverVersion = ServerVersion.v1_21_R1;
-            } else {
-                serverVersion = ServerVersion.valueOf(packageName.replace("org.bukkit.craftbukkit.", ""));
-            }
-
-            IllegalStack.version = serverVersion.getServerVersionName();
-        }
+        serverVersion = ServerVersion.fromMinecraftVersion(Bukkit.getMinecraftVersion());
+        version = serverVersion.getServerVersionName();
     }
 
     public static Material getLbBlock() {
@@ -1164,17 +1120,8 @@ public class IllegalStack extends JavaPlugin {
     }
 
     public static int getMajorServerVersion() {
-        int version;
-
-        try {
-            version = Integer.parseInt(getVersion().split("_")[1]);
-        } catch (NumberFormatException e) {
-            LOGGER.error("Unable to process server version!");
-            LOGGER.error("Some features may break unexpectedly!");
-            LOGGER.error("Report any issues to the developer!");
-            return 0;
-        }
-        return version;
+        return ServerVersion.fromMinecraftVersion(Bukkit.getMinecraftVersion())
+                .getServerMajorVersionNumber();
     }
 
 }
