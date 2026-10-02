@@ -7,17 +7,19 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-      - name: Validate Gradle Wrapper
-        uses: gradle/wrapper-validation-action@v3
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 17
-      - name: Clean Build
-        run: ./gradlew clean build
+          java-version: 25
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '9.8.0'
+      - name: Clean Build, Tests, and Coverage
+        run: gradle clean check build jacocoTestReport
       - name: Archive Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: IllegalStack-SNAPSHOT
-          path: build/libs/IllegalStack-*.jar
+          name: IllegalStack
+          path: build/libs/IllegalStack.jar
