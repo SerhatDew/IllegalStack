@@ -772,52 +772,43 @@ public class IllegalStack extends JavaPlugin {
     private void loadMsgs() {
         File conf = new File(getDataFolder(), "messages.yml");
         YamlConfiguration fc = new YamlConfiguration();
+        boolean creatingDefaultFile = !conf.isFile();
         try {
-            fc.load(conf);
-        } catch (FileNotFoundException e) {
-            LOGGER.info("Creating messages.yml");
-            for (Msg m : Msg.values()) {
-                if (fc.getString(m.name()) == null) {
-                    LOGGER.info("Adding default message to messages.yml for: {}", m.name());
-                    fc.set(m.name(), m.getConfigVal());
-                }
-            }
-            try {
-                fc.save(conf);
-            } catch (IOException e1) {
-                e1.printStackTrace();
+            if (!creatingDefaultFile) {
+                fc.load(conf);
             }
         } catch (IOException | InvalidConfigurationException e) {
-            e.printStackTrace();
+            LOGGER.error("Failed to load messages.yml", e);
+            return;
         }
 
-        if (fc != null) {
-            boolean update = false;
-            for (Msg m : Msg.values()) {
-                if (fc.getString(m.name()) == null) {
+        boolean update = false;
+        for (Msg m : Msg.values()) {
+            if (fc.getString(m.name()) == null) {
+                if (!creatingDefaultFile) {
                     LOGGER.info(
-                            " {} Was missing from messages.yml, adding it with the default value {}",
+                            "{} was missing from messages.yml; adding it with the default value {}",
                             m.name(),
                             m.getConfigVal()
                     );
-                    fc.set(m.name(), m.getConfigVal());
-                    update = true;
-
                 }
-
-                m.setValue(fc.getString(m.name()));
+                fc.set(m.name(), m.getConfigVal());
+                update = true;
             }
-            if (update) {
 
-                try {
-                    fc.save("plugins/IllegalStack/messages.yml");
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
+            m.setValue(fc.getString(m.name()));
         }
 
+        if (update) {
+            try {
+                fc.save(conf);
+                if (creatingDefaultFile) {
+                    LOGGER.info("Created messages.yml with default values.");
+                }
+            } catch (IOException e) {
+                LOGGER.error("Failed to save messages.yml", e);
+            }
+        }
     }
 
     private void loadConfig() {
@@ -825,16 +816,8 @@ public class IllegalStack extends JavaPlugin {
         try {
             plugin.getConfig().load(conf);
         } catch (FileNotFoundException e) {
-            LOGGER.error(
-                    "Configuration File Not Found! /plugins/IllegalStack/config.yml - Creating a new one with default values.");
-            FileConfiguration config = this.getConfig();
-            try {
-                config.save(conf);
-            } catch (IOException e1) {
-                // TODO Auto-generated catch block
-                LOGGER.error("failed to save config?", e1);
-            }
-            writeConfig();
+            LOGGER.info("Configuration file not found; creating config.yml with default values.");
+            writeConfig(false);
         } catch (IOException | InvalidConfigurationException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -1025,7 +1008,10 @@ public class IllegalStack extends JavaPlugin {
     }
 
     private void writeConfig() {
+        writeConfig(true);
+    }
 
+    private void writeConfig(boolean logMissingProtections) {
         File conf = new File(getDataFolder(), "config.yml");
         FileConfiguration config = this.getConfig();
 
@@ -1054,11 +1040,13 @@ public class IllegalStack extends JavaPlugin {
                             config.set(p.getConfigPath(), p.getDefaultValue());
                         }
 
-                        LOGGER.warn(
-                                "Found a missing protection from your configuration: {} it has been added with a default value of: {}",
-                                p.name(),
-                                p.getDefaultValue()
-                        );
+                        if (logMissingProtections) {
+                            LOGGER.warn(
+                                    "Found a missing protection from your configuration: {} it has been added with a default value of: {}",
+                                    p.name(),
+                                    p.getDefaultValue()
+                            );
+                        }
                     }
                     if (p.isList()) {
                         ArrayList<String> list = new ArrayList<>();
