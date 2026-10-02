@@ -287,7 +287,7 @@ public enum Msg {
         if (en == null) {
             val = val.replace("~enchant~", "");
         } else {
-            val = val.replace("~enchant~", en.getName());
+            val = val.replace("~enchant~", en.getKey().getKey());
             val = val.replace("~lvl~", is.getEnchantmentLevel(en) + "");
         }
         if (obj instanceof BlockState) {
@@ -332,7 +332,7 @@ public enum Msg {
         String val = value;
 
         val = val.replace("~item~", is.getType().name());
-        val = val.replace("~enchant~", en.getName());
+        val = val.replace("~enchant~", en.getKey().getKey());
         val = val.replace("~lvl~", is.getEnchantmentLevel(en) + "");
         val = val.replace("~player~", p.getName());
         val = val.replace("@", "@ " + p.getLocation());

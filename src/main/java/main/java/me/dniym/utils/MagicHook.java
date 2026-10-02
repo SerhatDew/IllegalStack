@@ -15,7 +15,8 @@ public class MagicHook {
             getApi();
         }
 
-        return magicApi.isBrush(is) || magicApi.isSpell(is) || magicApi.isUpgrade(is) || magicApi.isWand(is);
+        return magicApi != null
+                && (magicApi.isBrush(is) || magicApi.isSpell(is) || magicApi.isUpgrade(is) || magicApi.isWand(is));
     }
 
     private static void getApi() {

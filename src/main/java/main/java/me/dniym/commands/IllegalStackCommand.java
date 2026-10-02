@@ -320,7 +320,7 @@ public class IllegalStackCommand implements CommandExecutor, TabCompleter {
         }
 
         if (IllegalStack.isSpigot() && plr != null) {
-            plr.spigot().sendMessage(SpigotMethods.makeCategoryText(category, show, catId));
+            plr.sendMessage(SpigotMethods.makeCategoryText(category, show, catId));
         }
     }
 
@@ -345,10 +345,10 @@ public class IllegalStackCommand implements CommandExecutor, TabCompleter {
                 }
             }
 
-            plr.spigot().sendMessage(SpigotMethods.makeParentText(p, status, hasKids, catId));
+            plr.sendMessage(SpigotMethods.makeParentText(p, status, hasKids, catId));
             for (Protections child : kids) {
                 if (parentId != 0 && parentId == p.getProtId()) {
-                    plr.spigot().sendMessage(SpigotMethods.makeChildText(child, catId));
+                    plr.sendMessage(SpigotMethods.makeChildText(child, catId));
                 }
             }
 

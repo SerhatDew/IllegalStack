@@ -88,7 +88,7 @@ public class IllegalEnchantCheck {
                         continue;
                     }
 
-                    if (IllegalStack.isEpicRename() && ((enchantment == Enchantment.LURE || enchantment == Enchantment.ARROW_INFINITE) && itemStack
+                    if (IllegalStack.isEpicRename() && ((enchantment == Enchantment.LURE || enchantment == Enchantment.INFINITY) && itemStack
                             .getEnchantmentLevel(
                                     enchantment) == 4341)) {
                         continue;

@@ -1733,162 +1733,133 @@ public enum Protections {
 
     public boolean isRelevantToVersion(String serverVersion) {
 
+        return isVersionRelevant(this.getVersion(), serverVersion);
+    }
+
+    /**
+     * Evaluates the version labels used by protection entries against a server version.
+     * Kept independent of plugin state so version boundaries can be tested directly.
+     */
+    public static boolean isVersionRelevant(String protectionVersion, String serverVersion) {
+
         if (serverVersion.contains("_")) {
             serverVersion = serverVersion.replace("_", ".");
         }
-        if (this.getVersion().isEmpty()) {
+        if (protectionVersion.isEmpty()) {
             return false; //must be a child node
         }
 
-        if (this.getVersion().contains("< 1.21")) {
-            return !serverVersion.contains("1.21");
+        if (protectionVersion.matches("<\\s*1\\.\\d+")) {
+            int cutoffMinor = Integer.parseInt(protectionVersion.replaceAll("[^0-9]", "").substring(1));
+            return isBelowMinecraftVersion(serverVersion, 1, cutoffMinor);
         }
 
-        if (this.getVersion().contains("< 1.20")) {
-            return !serverVersion.contains("1.20");
-        }
-
-        if (this.getVersion().contains("< 1.19")) {
-            return !serverVersion.contains("1.19") 	&& !serverVersion.contains("1.20") && !serverVersion.contains("1.21");
-        }
-
-        if (this.getVersion().contains("< 1.18")) {
-            return !serverVersion.contains("1.18") && !serverVersion.contains("1.18")
-            		&& !serverVersion.contains("1.19") && !serverVersion.contains("1.20") && !serverVersion.contains("1.21");
-        }
-
-        if (this.getVersion().contains("< 1.17")) {
-            return !serverVersion.contains("1.17") && !serverVersion.contains("1.16") && !serverVersion.contains("1.17") && !serverVersion.contains("1.18")
-            		&& !serverVersion.contains("1.19") && !serverVersion.contains("1.20") && !serverVersion.contains("1.21");
-        }
-        if (this.getVersion().contains("< 1.16")) {
-            return !serverVersion.contains("1.16") && !serverVersion.contains("1.17") && !serverVersion.contains("1.18")
-            		&& !serverVersion.contains("1.19") && !serverVersion.contains("1.20") && !serverVersion.contains("1.21");
-        }
-        if (this.getVersion().contains("< 1.15")) {
-            return !serverVersion.contains("1.15") && !serverVersion.contains("1.16") && !serverVersion.contains("1.17") && !serverVersion.contains("1.18")
-            		&& !serverVersion.contains("1.19") && !serverVersion.contains("1.20") && !serverVersion.contains("1.21");
-        }
-
-        if (this.getVersion().equalsIgnoreCase("1.14.4") && !serverVersion.contains("1.14.R4")) {
+        if (protectionVersion.equalsIgnoreCase("1.14.4") && !serverVersion.contains("1.14.R4")) {
             return false;
         }
 
-        if (this.getVersion().equalsIgnoreCase("1.14.3") && !serverVersion.contains("1.14.R3")) {
+        if (protectionVersion.equalsIgnoreCase("1.14.3") && !serverVersion.contains("1.14.R3")) {
             return false;
         }
 
-        if (this.getVersion().contains("ALL")) {
+        if (protectionVersion.contains("ALL")) {
             return true;
         }
 
-        if (this.getVersion().equalsIgnoreCase("1.21") && serverVersion.contains("1.21")) {
+        if (protectionVersion.matches(">\\s*1\\.\\d+")) {
+            int cutoffMinor = Integer.parseInt(protectionVersion.replaceAll("[^0-9]", "").substring(1));
+            return !isBelowMinecraftVersion(serverVersion, 1, cutoffMinor);
+        }
+
+        if (protectionVersion.equalsIgnoreCase("1.21") && serverVersion.contains("1.21")) {
             return true;
         }
         
-        if (this.getVersion().equalsIgnoreCase("1.20") && serverVersion.contains("1.20")) {
+        if (protectionVersion.equalsIgnoreCase("1.20") && serverVersion.contains("1.20")) {
             return true;
         }
 
-        if (this.getVersion().equalsIgnoreCase("1.19") && serverVersion.contains("1.19")) {
+        if (protectionVersion.equalsIgnoreCase("1.19") && serverVersion.contains("1.19")) {
             return true;
         }
 
-        if (this.getVersion().equalsIgnoreCase("1.18") && serverVersion.contains("1.18")) {
+        if (protectionVersion.equalsIgnoreCase("1.18") && serverVersion.contains("1.18")) {
             return true;
         }
 
-        if (this.getVersion().equalsIgnoreCase("1.17") && serverVersion.contains("1.17")) {
+        if (protectionVersion.equalsIgnoreCase("1.17") && serverVersion.contains("1.17")) {
             return true;
         }
 
-        if (this.getVersion().equalsIgnoreCase("1.16") && serverVersion.contains("1.16")) {
+        if (protectionVersion.equalsIgnoreCase("1.16") && serverVersion.contains("1.16")) {
             return true;
         }
 
-        if (this.getVersion().equalsIgnoreCase("1.15") && serverVersion.contains("1.15")) {
+        if (protectionVersion.equalsIgnoreCase("1.15") && serverVersion.contains("1.15")) {
             return true;
         }
 
-        if (this.getVersion().equalsIgnoreCase("1.14") && serverVersion.contains("1.14")) {
+        if (protectionVersion.equalsIgnoreCase("1.14") && serverVersion.contains("1.14")) {
             return true;
         }
 
-        if (this.getVersion().contains("1.14") && serverVersion.contains("1.14")) {
+        if (protectionVersion.contains("1.14") && serverVersion.contains("1.14")) {
             return true;
         }
 
-        if (this.getVersion().contains("1.15") && serverVersion.contains("1.15")) {
+        if (protectionVersion.contains("1.15") && serverVersion.contains("1.15")) {
             return true;
         }
 
-        if (this.getVersion().contains("1.16") && serverVersion.contains("1.16")) {
+        if (protectionVersion.contains("1.16") && serverVersion.contains("1.16")) {
             return true;
         }
 
-        if (this.getVersion().contains("1.17") && serverVersion.contains("1.17")) {
+        if (protectionVersion.contains("1.17") && serverVersion.contains("1.17")) {
             return true;
         }
 
-        if (this.getVersion().contains("1.18") && serverVersion.contains("1.18")) {
+        if (protectionVersion.contains("1.18") && serverVersion.contains("1.18")) {
             return true;
         }
 
-        if (this.getVersion().contains("1.19") && serverVersion.contains("1.19")) {
+        if (protectionVersion.contains("1.19") && serverVersion.contains("1.19")) {
             return true;
         }
 
-        if (this.getVersion().contains("1.20") && serverVersion.contains("1.20")) {
+        if (protectionVersion.contains("1.20") && serverVersion.contains("1.20")) {
             return true;
         }
 
-        if (this.getVersion().contains("1.21") && serverVersion.contains("1.21")) {
+        if (protectionVersion.contains("1.21") && serverVersion.contains("1.21")) {
             return true;
         }
        
 
-        if (this.getVersion().contains("> 1.12")) {
-            if (serverVersion.contains("1.21") || serverVersion.contains("1.20") || serverVersion.contains("1.19") || serverVersion.contains("1.18") || serverVersion.contains("1.17") || serverVersion.contains("1.16") 
-            		|| serverVersion.contains("1.15") || serverVersion.contains("1.14") || serverVersion.contains("1.13") || serverVersion.contains("1.12")) {
-                return true;
-            }
-        }
-
-        if (this.getVersion().contains("> 1.9")) {
-            if (serverVersion.contains("1.21") || serverVersion.contains("1.20") || serverVersion.contains("1.19") || serverVersion.contains("1.18") || serverVersion.contains("1.17") || serverVersion.contains("1.16") || serverVersion.contains("1.15") || serverVersion
-                    .contains("1.14") || serverVersion.contains("1.13") || serverVersion.contains("1.12") || serverVersion.contains(
-                    "1.11") ||
-                    this.serverVersion.contains("1.10") || this.serverVersion.contains("1.9")) {
-                return true;
-            }
-        }
-
-        if (this.getVersion().contains("> 1.11")) {
-            if (serverVersion.contains("1.21") || serverVersion.contains("1.20") || serverVersion.contains("1.19") || serverVersion.contains("1.18") || serverVersion.contains("1.17") || serverVersion.contains("1.16") || serverVersion.contains("1.15") || serverVersion
-                    .contains("1.14") || serverVersion.contains("1.13") || serverVersion.contains("1.12") || serverVersion.contains(
-                    "1.11")) {
-                return true;
-            }
-        }
-        if (this.getVersion().contains("1.12")) {
+        if (protectionVersion.contains("1.12")) {
             if (serverVersion.contains("1.12")) {
                 return true;
             }
         }
-        if (this.getVersion().contains("1.13") && serverVersion.contains("1.13")) {
+        if (protectionVersion.contains("1.13") && serverVersion.contains("1.13")) {
             return true;
         }
 
-        if (this.getVersion().contains("> 1.13")) {
+        if (protectionVersion.contains("> 1.13")) {
             return Material.matchMaterial("CAVE_AIR") != null;
         }
-        if (this.getVersion().contains("< 1.13")) {
-            return Material.matchMaterial("CAVE_AIR") == null;
-        }
-
-
         return false;
 
+    }
+
+    private static boolean isBelowMinecraftVersion(String serverVersion, int cutoffMajor, int cutoffMinor) {
+        java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("(\\d+)\\.(\\d+)").matcher(serverVersion);
+        if (!matcher.find()) {
+            return false;
+        }
+        int major = Integer.parseInt(matcher.group(1));
+        int minor = Integer.parseInt(matcher.group(2));
+        return major < cutoffMajor || major == cutoffMajor && minor < cutoffMinor;
     }
 
     public boolean isVersionSpecific(String serverVersion) {
@@ -2145,7 +2116,7 @@ public enum Protections {
             if (enc == null) {
                 String vals = "";
                 for (Enchantment en : Enchantment.values()) {
-                    vals = vals + en.getName() + ", ";
+                    vals = vals + en.getKey().getKey() + ", ";
                 }
 
                 sender.sendMessage(ChatColor.RED + "You must specify a valid minecraft enchantment.   Valid enchants are: " + ChatColor.DARK_GRAY + vals);

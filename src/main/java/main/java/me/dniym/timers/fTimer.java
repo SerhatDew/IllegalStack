@@ -438,10 +438,10 @@ public class fTimer implements Runnable {
                                             if (SlimefunCompat.isValid(is, en)) {
                                                 continue;
                                             }
-                                            if (IllegalStack.isClueScrolls() && en == Enchantment.DURABILITY && is.getType() == Material.PAPER) {
+                                            if (IllegalStack.isClueScrolls() && en == Enchantment.UNBREAKING && is.getType() == Material.PAPER) {
                                                 continue;
                                             }
-                                            if (IllegalStack.isEpicRename() && ((en == Enchantment.LURE || en == Enchantment.ARROW_INFINITE) && is
+                                            if (IllegalStack.isEpicRename() && ((en == Enchantment.LURE || en == Enchantment.INFINITY) && is
                                                     .getEnchantmentLevel(en) == 4341)) {
                                                 continue;
                                             }
@@ -551,10 +551,10 @@ public class fTimer implements Runnable {
                                             if (SlimefunCompat.isValid(is, en)) {
                                                 continue;
                                             }
-                                            if (IllegalStack.isClueScrolls() && en == Enchantment.DURABILITY && is.getType() == Material.PAPER) {
+                                            if (IllegalStack.isClueScrolls() && en == Enchantment.UNBREAKING && is.getType() == Material.PAPER) {
                                                 continue;
                                             }
-                                            if (IllegalStack.isEpicRename() && ((en == Enchantment.LURE || en == Enchantment.ARROW_INFINITE) && is
+                                            if (IllegalStack.isEpicRename() && ((en == Enchantment.LURE || en == Enchantment.INFINITY) && is
                                                     .getEnchantmentLevel(en) == 4341)) {
                                                 continue;
                                             }
@@ -673,10 +673,10 @@ public class fTimer implements Runnable {
                                         if (SlimefunCompat.isValid(is, en)) {
                                             continue;
                                         }
-                                        if (IllegalStack.isClueScrolls() && en == Enchantment.DURABILITY && is.getType() == Material.PAPER) {
+                                        if (IllegalStack.isClueScrolls() && en == Enchantment.UNBREAKING && is.getType() == Material.PAPER) {
                                             continue;
                                         }
-                                        if (IllegalStack.isEpicRename() && ((en == Enchantment.LURE || en == Enchantment.ARROW_INFINITE) && is
+                                        if (IllegalStack.isEpicRename() && ((en == Enchantment.LURE || en == Enchantment.INFINITY) && is
                                                 .getEnchantmentLevel(en) == 4341)) {
                                             continue;
                                         }

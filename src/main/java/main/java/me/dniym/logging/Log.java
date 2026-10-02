@@ -4,11 +4,10 @@ import main.java.me.dniym.IllegalStack;
 import main.java.me.dniym.enums.Msg;
 import main.java.me.dniym.enums.Protections;
 import main.java.me.dniym.events.IllegalStackLogEvent;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ClickEvent.Action;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.Bukkit;
@@ -75,13 +74,11 @@ public class Log {
                     message = cleanMessage(message);
 
                     if (IllegalStack.isSpigot() && message.contains("@")) {
-                        TextComponent msg = new TextComponent(message);
-                        msg.setHoverEvent(new HoverEvent(
-                                HoverEvent.Action.SHOW_TEXT,
-                                new ComponentBuilder(Msg.PluginTeleportText.getValue()).create()
-                        ));
-                        msg.setClickEvent(new ClickEvent(Action.RUN_COMMAND, getTeleportLoc(message)));
-                        p.spigot().sendMessage(msg);
+                        Component msg = LegacyComponentSerializer.legacySection().deserialize(message)
+                                .hoverEvent(HoverEvent.showText(LegacyComponentSerializer.legacySection()
+                                        .deserialize(Msg.PluginTeleportText.getValue())))
+                                .clickEvent(ClickEvent.runCommand(getTeleportLoc(message)));
+                        p.sendMessage(msg);
                     } else {
                         p.sendMessage(Msg.PluginPrefix.getValue() + ChatColor.RESET + message);
                     }
@@ -176,13 +173,12 @@ public class Log {
 
                     if (IllegalStack.isSpigot() && message.contains("@")) {
 
-                        TextComponent msg = new TextComponent(ChatColor.GREEN + "(Notification Only) " + message);
-                        msg.setHoverEvent(new HoverEvent(
-                                HoverEvent.Action.SHOW_TEXT,
-                                new ComponentBuilder(Msg.PluginTeleportText.getValue()).create()
-                        ));
-                        msg.setClickEvent(new ClickEvent(Action.RUN_COMMAND, getTeleportLoc(message)));
-                        p.spigot().sendMessage(msg);
+                        Component msg = LegacyComponentSerializer.legacySection()
+                                .deserialize(ChatColor.GREEN + "(Notification Only) " + message)
+                                .hoverEvent(HoverEvent.showText(LegacyComponentSerializer.legacySection()
+                                        .deserialize(Msg.PluginTeleportText.getValue())))
+                                .clickEvent(ClickEvent.runCommand(getTeleportLoc(message)));
+                        p.sendMessage(msg);
                     } else {
                         p.sendMessage(ChatColor.RED + "[IllegalStack] - (Notification Only)" + ChatColor.RESET + message);
                     }
