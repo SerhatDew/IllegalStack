@@ -697,7 +697,7 @@ public enum Protections {
             8,
             true,
             "Destroy Rail / Carpet Dupers",
-            "1.12/1.13/1.14/1.15/1.16/1.17/1.18/1.19/1.20/1.21",
+            "1.12/1.13/1.14/1.15/1.16/1.17/1.18/1.19/1.20/1.21/26.2",
             "Exploits.Other.PreventRailDupe",
             "Prevent redstone machines designed to dupe carpets and rails, these items are usually duped to provide infinite fuel for furnaces or to sell for in game money in shops.",
             "",
@@ -969,7 +969,7 @@ public enum Protections {
             19,
             true,
             "Prevent Villager Trade Cheesing",
-            "1.14 / 1.15 / 1.16 / 1.17 / 1.18 / 1.19 / 1.20 / 1.21",
+            "1.14 / 1.15 / 1.16 / 1.17 / 1.18 / 1.19 / 1.20 / 1.21 / 26.2",
             "Exploits.1_14_Exploits.Traders.BlockVillagerTradeCheesing",
             "Prevents players from placing / breaking a villagers work station over and over which forces them to get new trades, typically people abuse this to make sure they get specific enchantments or items from a villager rather than it being a random mechanic.",
             "",
@@ -1011,7 +1011,7 @@ public enum Protections {
             46,
             true,
             "Prevent Tripwire Dupe",
-            "1.15 / 1.16 / 1.17 / 1.18 / 1.19 / 1.20 / 1.21",
+            "1.15 / 1.16 / 1.17 / 1.18 / 1.19 / 1.20 / 1.21 / 26.2",
             "Exploits.1_15_Exploits.Dupes.PreventTripwireDupe",
             "Prevents players from using trapdoors to dupe tripwire hooks.",
             "",
@@ -1769,6 +1769,12 @@ public enum Protections {
         if (protectionVersion.matches(">\\s*1\\.\\d+")) {
             int cutoffMinor = Integer.parseInt(protectionVersion.replaceAll("[^0-9]", "").substring(1));
             return !isBelowMinecraftVersion(serverVersion, 1, cutoffMinor);
+        }
+
+        if (protectionVersion.contains("26.2")
+                && (serverVersion.equals("26.2") || serverVersion.equals("v26.2")
+                || serverVersion.startsWith("v26.2.R"))) {
+            return true;
         }
 
         if (protectionVersion.equalsIgnoreCase("1.21") && serverVersion.contains("1.21")) {
