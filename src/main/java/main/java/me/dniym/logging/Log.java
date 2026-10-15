@@ -73,7 +73,7 @@ public class Log {
                 if (p.hasPermission("illegalstack.notify")) {
                     message = cleanMessage(message);
 
-                    if (IllegalStack.isSpigot() && message.contains("@")) {
+                    if (message.contains("@")) {
                         Component msg = LegacyComponentSerializer.legacySection().deserialize(message)
                                 .hoverEvent(HoverEvent.showText(LegacyComponentSerializer.legacySection()
                                         .deserialize(Msg.PluginTeleportText.getValue())))
@@ -171,7 +171,7 @@ public class Log {
                 if (p.hasPermission("illegalstack.notify")) {
                     message = cleanMessage(message);
 
-                    if (IllegalStack.isSpigot() && message.contains("@")) {
+                    if (message.contains("@")) {
 
                         Component msg = LegacyComponentSerializer.legacySection()
                                 .deserialize(ChatColor.GREEN + "(Notification Only) " + message)

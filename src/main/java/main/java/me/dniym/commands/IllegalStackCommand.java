@@ -46,9 +46,7 @@ public class IllegalStackCommand implements CommandExecutor, TabCompleter {
 
                 String ver = IllegalStack.getPlugin().getDescription().getVersion();
                 sender.sendMessage(ChatColor.AQUA + "-----===== Illegal Stack (" + ver + ") =====-----");
-                sender.sendMessage(ChatColor.GOLD + " Detected Server Version: " + IllegalStack.getVersion() + (IllegalStack.isSpigot()
-                        ? ""
-                        : "Spigot"));
+                sender.sendMessage(ChatColor.GOLD + " Detected Server Version: " + IllegalStack.getVersion());
                 return true;
 
             }
@@ -71,9 +69,7 @@ public class IllegalStackCommand implements CommandExecutor, TabCompleter {
                     return true;
                 }
                 sender.sendMessage(ChatColor.AQUA + "-----===== Illegal Stack Protections =====-----");
-                sender.sendMessage(ChatColor.GOLD + " Detected Server Version: " + IllegalStack.getVersion() + (IllegalStack.isSpigot()
-                        ? ""
-                        : "Spigot"));
+                sender.sendMessage(ChatColor.GOLD + " Detected Server Version: " + IllegalStack.getVersion());
                 sender.sendMessage(ChatColor.AQUA + "-" + "   Version Specific Protections   -");
                 int parentId = 0;
                 int catId = 0;
@@ -319,7 +315,7 @@ public class IllegalStackCommand implements CommandExecutor, TabCompleter {
             plr = (Player) sender;
         }
 
-        if (IllegalStack.isSpigot() && plr != null) {
+        if (plr != null) {
             plr.sendMessage(SpigotMethods.makeCategoryText(category, show, catId));
         }
     }
@@ -335,7 +331,7 @@ public class IllegalStackCommand implements CommandExecutor, TabCompleter {
         if (!p.isEnabled()) {
             status = ChatColor.DARK_RED + "OFF";
         }
-        if (IllegalStack.isSpigot() && plr != null) {
+        if (plr != null) {
             boolean hasKids = false;
             HashSet<Protections> kids = new HashSet<>();
             for (Protections child : Protections.values()) {

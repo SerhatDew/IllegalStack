@@ -52,7 +52,6 @@ public class IllegalStack extends JavaPlugin {
     private static boolean SlimeFun = false;
     private static boolean EpicRename = false;
     private static boolean ClueScrolls = false;
-    private static boolean Spigot = false;
     private static boolean blockMetaData = false;
     private static boolean hasFactionGUI = false;
     private static boolean SmartInv = false;
@@ -94,10 +93,6 @@ public class IllegalStack extends JavaPlugin {
 
     public static boolean isPaperServer() {
         return isPaperServer;
-    }
-
-    public static boolean isSpigot() {
-        return Spigot;
     }
 
     public static boolean isFoliaServer() {
@@ -179,8 +174,6 @@ public class IllegalStack extends JavaPlugin {
         checkForHybridEnvironment();
         checkForPaperServer();
         checkForFoliaServer();
-
-        Spigot = true;
 
         if (plugin.getServer().getPluginManager().getPlugin("Logblock") != null) {
             File conf = new File(Bukkit.getPluginManager().getPlugin("Logblock").getDataFolder(), "config.yml");

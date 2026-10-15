@@ -47,7 +47,7 @@ dependencies {
     testImplementation("net.kyori:adventure-api:5.2.0")
     testImplementation("net.kyori:adventure-text-serializer-legacy:5.2.0")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-    testRuntimeOnly("io.papermc.paper:paper-api:26.2.build.129-stable")
+    testImplementation("io.papermc.paper:paper-api:26.2.build.129-stable")
 }
 
 java {
@@ -96,7 +96,7 @@ tasks.check {
     dependsOn(tasks.jacocoTestCoverageVerification)
 }
 
-version = "2.9.12a"
+version = "2.9.12b"
 val pluginVersion = version.toString()
 
 tasks.jar {
