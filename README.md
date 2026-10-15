@@ -11,6 +11,18 @@ This fork updates the upstream IllegalStack project for **Paper 26.2** running o
 
 For older Minecraft versions (1.13 - 1.21), please use the upstream releases from the official links below.
 
+## Releases
+
+[Download IllegalStack 2.9.12b](https://github.com/SerhatDew/IllegalStack/releases/tag/v2.9.12b)
+
+Place `IllegalStack.jar` in the server's `plugins` directory and restart the server. Replace the previous JAR when upgrading.
+
+### 2.9.12b
+
+- Restored clickable protection menus and staff notification links on startup, without requiring `/istack reload`.
+- Enabled rail/carpet dupe, tripwire dupe, and villager trade cheesing protections for Paper 26.2. Legacy-only protections remain excluded.
+
+
 ## Changes in this Fork
 
 - Updated compilation target and Gradle toolchain to Java 25.
